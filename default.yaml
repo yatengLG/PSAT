@@ -1,0 +1,13 @@
+label:
+- color: '#ffffff'
+  name: __unclassified__
+- color: '#e9b96e'
+  name: __ground__
+- color: '#ef2929'
+  name: wall
+- color: '#8ae234'
+  name: chair
+- color: '#ad7fa8'
+  name: painting
+- color: '#a40000'
+  name: cabinet

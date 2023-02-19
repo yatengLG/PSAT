@@ -1,0 +1,7 @@
+pyopengl
+pyqt5
+scikit-learn
+yacs
+plyfile
+laspy
+imgviz
