@@ -1,4 +1,6 @@
 # PSAT - Point cloud segmentation annotation tools
+[中文](README.md)
+
 ![](example/pic/psat.png)
 
 ## Annotate
