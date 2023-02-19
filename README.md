@@ -1,16 +1,19 @@
-# PSAT - 点云分割标注工具，支持同时标注语义分割于实例分割
-[English](README-en.md)
+# [PSAT](http://www.yatenglg.cn/psat) - 点云分割标注工具
+![psat.png](example/pic/psat.png)
 
-![](example/pic/psat.png)
+[中文](README.md) [English](README-en.md)
+
+1. 实现十万级别点云流畅标注,百万级别点云流畅可视化
+2. 支持同时标注语义分割与实例分割
 
 ## 标注
 通过多边形框选点云，选择类别并指定实例组id
-![](example/pic/标注.png)
+![标注.png](example/pic/标注.png)
 ## 标注结果
 语义分割标注（类别标注）
-![](example/pic/类别.png)
+![类别.png](example/pic/类别.png)
 实例分割标注（单体标注）
-![](example/pic/实例.png)
+![实例.png](example/pic/实例.png)
 
 ## 安装
 
