@@ -7,6 +7,7 @@ from multiprocessing import Pool
 import laspy
 from plyfile import PlyData
 
+
 def las_read(file_path) -> (np.ndarray, np.ndarray, np.ndarray):
     data = laspy.read(file_path)
     vertices = np.vstack((data.x, data.y, data.z)).transpose()
@@ -54,6 +55,27 @@ def ply_read(file_path):
     return vertices, colors, size, offset
 
 
+def txt_read(file_path) -> (np.ndarray, np.ndarray, np.ndarray):
+    '''
+    txt格式存储的点云。
+    每行代表一个点，共六列分别为x, y, z, r, g, b
+    rgb值为0-255
+    :param file_path:
+    :return:
+    '''
+    datas = np.loadtxt(file_path)
+    datas = datas.astype(np.float32)
+    vertices = datas[:, :3]
+    rgb = datas[:, 3:6]
+    xmin, ymin, zmin = min(vertices[:, 0]), min(vertices[:, 1]), min(vertices[:, 2])
+    xmax, ymax, zmax = max(vertices[:, 0]), max(vertices[:, 1]), max(vertices[:, 2])
+    vertices -= (xmin, ymin, zmin)
+    rgb = rgb / 255
+    offset = np.array([xmin, ymin, zmin])
+    size = np.array((xmax - xmin, ymax - ymin, zmax - zmin))
+    return vertices, rgb, size, offset
+
+
 class PointCloud:
     def __init__(self, file_path:str, xyz, rgb, size, offset):
         self.file_path:str = file_path
@@ -96,8 +118,10 @@ class PointCloudReadThread(QThread):
             xyz, rgb, size, offset = las_read(file_path)
         elif file_path.endswith('.ply'):
             xyz, rgb, size, offset = ply_read(file_path)
+        elif file_path.endswith('.txt'):
+            xyz, rgb, size, offset = txt_read(file_path)
         else:
-            xyz, rgb, size, offset = None, None, None, None
+            return None
         pointcloud = PointCloud(file_path, xyz, rgb, size, offset)
         return pointcloud
 

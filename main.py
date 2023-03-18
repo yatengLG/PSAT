@@ -72,7 +72,7 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def point_cloud_read_thread_start(self):
 
-        file, suffix = QtWidgets.QFileDialog.getOpenFileName(self, caption='point cloud file', filter="point cloud (*.las *.ply)")
+        file, suffix = QtWidgets.QFileDialog.getOpenFileName(self, caption='point cloud file', filter="point cloud (*.las *.ply *.txt)")
         if file:
             if not self.close_point_cloud():
                 return
@@ -84,6 +84,8 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def point_cloud_read_thread_finished(self, tag:bool):
         if tag:
             pointcloud = self.point_cloud_read_thread.pointcloud
+            if pointcloud is None:
+                return
             #
             label_file = '.'.join(self.current_file.split('.')[:-1]) + '.json'
             categorys = None
