@@ -1,17 +1,7 @@
 # [PSAT](http://www.yatenglg.cn/psat) - Point cloud segmentation annotation tools
+![psat.png](example/pic/标注.gif)
+
 [中文](README.md) [English](README-en.md)
-
-![psat.png](example/pic/psat.png)
-
-## Annotate
-
-Select the point cloud through the polygon box, and select the category.
-![标注.png](example/pic/标注.png)
-## Results
-Semantic segmentation
-![类别.png](example/pic/类别.png)
-Instance segmentation
-![实例.png](example/pic/实例.png)
 
 ## Install
 
@@ -22,6 +12,14 @@ conda create -n PSAT python==3.8
 conda activate PSAT
 pip install -r requests.txt
 ```
+
+## Annotate
+1. Add category and set color for show in setting.
+2. Open point cloud file
+3. Start annotate by button named [Pcik],draw polygon to select area by left button of mouse.
+3. End annotate by right button of mouse.
+4. Select category and set group if for instance.
+![psat.png](example/pic/展示.gif)
 
 ## Ground filter
 Software integrated with [CSF](https://github.com/jianboqi/CSF)，and provide the function of quickly extracting the ground 。

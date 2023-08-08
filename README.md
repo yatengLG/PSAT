@@ -1,7 +1,8 @@
 # [PSAT](http://www.yatenglg.cn/psat) - 点云分割标注工具
-![psat.png](example/pic/psat.png)
+![psat.png](example/pic/标注.gif)
 
 [中文](README.md) [English](README-en.md)
+
 # 简介
 深度学习点云分割标注工具
 
@@ -24,6 +25,7 @@ pip install -r requests.txt
 3. 框选过程可以通过切换高程渲染或真彩渲染，提高点云辨识度，也可以隐藏部分类别，减少标注干扰
 4. 标注文件保存为json格式，文件中保存了：原始点云路径、类别id与类别对应字典、类别id、实例id
 5.打开点云时，若存在对应标注文件，会加载类别与实例信息（切换任务时，记得修改类别设置）
+![psat.png](example/pic/展示.gif)
 
 # 额外功能
 ## 地面提取

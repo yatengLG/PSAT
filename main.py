@@ -29,6 +29,9 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.openGLWidget=GLWidget(self, self)
         self.setCentralWidget(self.openGLWidget)
 
+        self.actionPick.setEnabled(False)
+        self.actionCachePick.setEnabled(False)
+        self.dockWidget_files.setVisible(False)
         #
         self.actionClassify.setVisible(False)
         self.actionGround_filter.setVisible(False)
@@ -36,6 +39,7 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.config_file = DEFAULT_CONFIG_FILE
         self.current_file = None
+        self.current_root = None
         self.save_state = True
         self.category_choice_dialog = CategoryChoiceDialog(self, self)
         self.setting_dialog = SettingDialog(self, self)
@@ -70,16 +74,45 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.init_connect()
         self.reload_cfg()
 
-    def point_cloud_read_thread_start(self):
-
-        file, suffix = QtWidgets.QFileDialog.getOpenFileName(self, caption='point cloud file', filter="point cloud (*.las *.ply *.txt)")
+    def open_file(self):
+        self.dockWidget_files.setVisible(False)
+        self.listWidget_files.clear()
+        file, suffix = QtWidgets.QFileDialog.getOpenFileName(self, caption='point cloud file',
+                                                             filter="point cloud (*.las *.ply *.txt)")
         if file:
             if not self.close_point_cloud():
                 return
-
+            self.current_root = os.path.split(file)[0]
             self.current_file = file
-            self.point_cloud_read_thread.set_file_path(file)    # 传递文件名
-            self.point_cloud_read_thread.start()                # 线程读取文件
+            self.point_cloud_read_thread_start(file)
+
+    def open_folder(self):
+        dir = QtWidgets.QFileDialog.getExistingDirectory(self)
+        if dir:
+            self.close_point_cloud()
+
+            self.dockWidget_files.setVisible(True)
+            self.listWidget_files.clear()
+
+            self.current_root = dir
+            file_list = [file for file in os.listdir(dir) if not file.endswith('.json')]
+            for file in file_list:
+                item = QtWidgets.QListWidgetItem()
+                item.setSizeHint(QtCore.QSize(200, 30))
+                item.setText(file)
+                self.listWidget_files.addItem(item)
+
+    def double_click_files_widget(self, item:QtWidgets.QListWidgetItem):
+        file_path = os.path.join(self.current_root, item.text())
+        self.current_file = file_path
+        self.point_cloud_read_thread_start(file_path)
+
+    def point_cloud_read_thread_start(self, file_path):
+        if file_path.endswith('.las') or file_path.endswith('.ply') or file_path.endswith('.txt'):
+            self.point_cloud_read_thread.set_file_path(file_path)   # 传递文件名
+            self.point_cloud_read_thread.start()                    # 线程读取文件
+        else:
+            QtWidgets.QMessageBox.warning(self, 'Warning', "Only support file endwith '.txt', '.ply', '.las'")
 
     def point_cloud_read_thread_finished(self, tag:bool):
         if tag:
@@ -120,6 +153,8 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.label_offset_z.setText('{:.2f}'.format(pointcloud.offset[2]))
 
             self.setWindowTitle(pointcloud.file_path)
+            self.actionPick.setEnabled(True)
+            self.actionCachePick.setEnabled(True)
 
     def ground_filter_thread_start(self):
         if self.openGLWidget.pointcloud is None:
@@ -189,12 +224,13 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_offset_z.setText('None')
         self.label_widget.setVisible(False)
 
+        self.actionPick.setEnabled(False)
+        self.actionCachePick.setEnabled(False)
         return True
 
     def open_backgrpund_color_dialog(self):
         color = QtWidgets.QColorDialog.getColor(parent=self)
         if color.isValid():
-            print('backgrand color: ',color.name(), color.rgb(), color.red(), color.green(), color.blue())
             self.openGLWidget.set_background_color(color.redF(), color.greenF(), color.blueF())
 
     def show_message(self, message:str, msecs:int=5000):
@@ -421,7 +457,9 @@ class Mainwindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.about_dialog.show()
 
     def init_connect(self):
-        self.actionOpen.triggered.connect(self.point_cloud_read_thread_start)
+        self.actionOpen.triggered.connect(self.open_file)
+        self.actionOpenFolder.triggered.connect(self.open_folder)
+        self.listWidget_files.itemDoubleClicked.connect(self.double_click_files_widget)
         self.actionClose.triggered.connect(self.close_point_cloud)
         self.actionSave.triggered.connect(self.save_category_and_instance)
         self.actionExit.triggered.connect(self.close)

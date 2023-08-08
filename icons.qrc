@@ -1,0 +1,40 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>ui/icons/topview.png</file>
+    <file>ui/icons/setting.png</file>
+    <file>ui/icons/semantic.png</file>
+    <file>ui/icons/save.png</file>
+    <file>ui/icons/rightview.png</file>
+    <file>ui/icons/RGB.png</file>
+    <file>ui/icons/polygon.png</file>
+    <file>ui/icons/point+.png</file>
+    <file>ui/icons/point-.png</file>
+    <file>ui/icons/open.png</file>
+    <file>ui/icons/leftview.png</file>
+    <file>ui/icons/language.png</file>
+    <file>ui/icons/keyboard.png</file>
+    <file>ui/icons/instance.png</file>
+    <file>ui/icons/ground21.png</file>
+    <file>ui/icons/frontview.png</file>
+    <file>ui/icons/exit.png</file>
+    <file>ui/icons/close.png</file>
+    <file>ui/icons/classify-21.png</file>
+    <file>ui/icons/ccViewZpos.png</file>
+    <file>ui/icons/ccViewZneg.png</file>
+    <file>ui/icons/ccViewYpos.png</file>
+    <file>ui/icons/ccViewYneg.png</file>
+    <file>ui/icons/ccViewXpos.png</file>
+    <file>ui/icons/ccViewXneg.png</file>
+    <file>ui/icons/bottomview.png</file>
+    <file>ui/icons/backview.png</file>
+    <file>ui/icons/about.png</file>
+    <file>ui/icons/文件夹-开_folder-open.svg</file>
+    <file>ui/icons/文件夹-关_folder-close.svg</file>
+    <file>ui/icons/退出_logout.svg</file>
+    <file>ui/icons/设置_setting.svg</file>
+    <file>ui/icons/调色盘_platte.svg</file>
+    <file>ui/icons/等高线_21_21.png</file>
+    <file>ui/icons/背景颜色_background-color.svg</file>
+    <file>ui/icons/保存硬盘_save-one.svg</file>
+  </qresource>
+</RCC>
